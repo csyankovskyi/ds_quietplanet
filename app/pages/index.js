@@ -5,7 +5,7 @@ import { Typography, Paper } from "@material-ui/core"
 export default () => (
     <Paper className="root">
         <Head>
-            <title>Quiet planet solution by Data Scouts</title>
+            <title>"Quiet planet" challenge solution by Data Scouts</title>
         </Head>
 
         <div className="top">
@@ -15,6 +15,7 @@ export default () => (
             </div>
 
             <div className="content">
+
             </div>
         </div>
 
