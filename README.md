@@ -19,6 +19,7 @@
     * next
     * react
     * react-dom
+    * evergreen-ui
 
 ## Running app
 ### Running server
