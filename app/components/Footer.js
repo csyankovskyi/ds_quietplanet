@@ -1,8 +1,8 @@
-import { Paragraph } from "evergreen-ui"
+import { Typography } from "@material-ui/core"
 
 export default () => (
     <div className="footer">
-        <Paragraph size={400} className="footer-caption">Copyright (c) 2020 Ivan Zadvornov, Bohdan Yankovskiy</Paragraph>
+        <Typography variant="caption" className="footer-caption">Copyright (c) 2020 Ivan Zadvornov, Bohdan Yankovskiy</Typography>
     </div>
 )
 

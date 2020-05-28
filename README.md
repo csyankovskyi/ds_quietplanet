@@ -19,7 +19,7 @@
     * next
     * react
     * react-dom
-    * evergreen-ui
+    * @material-ui/core
 
 ## Running app
 ### Running server
