@@ -22,6 +22,12 @@
     * @material-ui/core
 
 ## Running app
+### Generating graphs
+```bash
+cd <project-root-directory>
+python3 analyze/index.py
+```
+
 ### Running server
 ```bash
 cd <project-root-directory>

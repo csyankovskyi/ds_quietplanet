@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+from helpers.download import download
 from pathlib import Path
 import json
 import os
@@ -15,13 +15,9 @@ def transform_dataset(dataset: str, empty: float):
 
     return constant
 
-
-def bake_chart_data(dataset_folder, output_folder):
+def bake_chart_data(dataset_folder: str, chart_metadata: list, output_file: str):
     out_dictionary = {"metadata": {}, "data": {}}
-
-    with open(os.path.join(dataset_folder, "metadata.json"), "r") as metadata:
-        metadata = json.load(metadata)
-        out_dictionary["metadata"] = metadata
+    out_dictionary["metadata"] = chart_metadata
     
     files = [file for file in os.listdir(dataset_folder) if file.lower().endswith(".csv")]
 
@@ -31,11 +27,36 @@ def bake_chart_data(dataset_folder, output_folder):
 
         out_dictionary["data"][file.split(".")[0]] = transform_dataset(dataset, 99999.0)
 
-    with open(os.path.join(output_folder, os.path.split(dataset_folder)[-1]+".json"), "w") as output:
+    with open(output_file, "w") as output:
         json.dump(out_dictionary, output)
 
-if __name__ == '__main__':
-    dataset_folder = Path(__file__).parent.absolute()
-    output_folder = dataset_folder.parent.absolute()
-    bake_chart_data(str(dataset_folder), str(output_folder))
+def load_charts_list(charts_json_path: str):
+    with open(charts_json_path) as charts_json:
+        charts = json.load(charts_json)
+        return charts
+
+def download_chart_datasets(datasets: list, output_folder: str):
+    urls = {}
+    for i in range(len(datasets)):
+        filename = str(i + 1) + ".csv"
+        urls[datasets[i]] = filename
+
+    download(urls, output_folder)
+
+def generate_chart(chart_obj: dict, output_folder: str):
+    download_chart_datasets(chart_obj["datasets"], output_folder)
+    bake_chart_data(output_folder, os.path.join(output_folder, "chart.json"))
+
+def generate_all_graphs():
+    charts = load_charts_list(Path(__file__).absolute().parent.parent / "graphs" / "graphs.json")
+    for chart in charts:
+        output_folder = Path(__file__).absolute().parent.parent / "graphs" / (chart["name"])
+        output_folder.mkdir(exist_ok=True)
+        download_chart_datasets(chart["datasets"], str(output_folder))
+        bake_chart_data(str(output_folder), chart["metadata"], str(output_folder / "chart.json"))
+
+    return
+
+if __name__ == "__main__":
+    generate_all_graphs()
 
