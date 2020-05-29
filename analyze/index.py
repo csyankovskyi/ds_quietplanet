@@ -15,9 +15,11 @@ def transform_dataset(dataset: str, empty: float):
 
     return constant
 
-def bake_chart_data(dataset_folder: str, chart_metadata: list, output_file: str):
-    out_dictionary = {"metadata": {}, "data": {}}
-    out_dictionary["metadata"] = chart_metadata
+def bake_chart_data(dataset_folder: str, chart: dict, output_file: str):
+    out_dictionary = { "description": "", "legend": [], "metadata": [], "data": [] }
+    out_dictionary["legend"] = chart["legend"]
+    out_dictionary["description"] = chart["description"]
+    out_dictionary["metadata"] = chart["metadata"]
     
     files = [file for file in os.listdir(dataset_folder) if file.lower().endswith(".csv")]
 
@@ -25,7 +27,7 @@ def bake_chart_data(dataset_folder: str, chart_metadata: list, output_file: str)
         with open(os.path.join(dataset_folder, file), "r") as csv:
             dataset = csv.read()
 
-        out_dictionary["data"][file.split(".")[0]] = transform_dataset(dataset, 99999.0)
+        out_dictionary["data"].append(transform_dataset(dataset, 99999.0))
 
     with open(output_file, "w") as output:
         json.dump(out_dictionary, output)
@@ -53,7 +55,7 @@ def generate_all_graphs():
         output_folder = Path(__file__).absolute().parent.parent / "graphs" / (chart["name"])
         output_folder.mkdir(exist_ok=True)
         download_chart_datasets(chart["datasets"], str(output_folder))
-        bake_chart_data(str(output_folder), chart["metadata"], str(output_folder / "chart.json"))
+        bake_chart_data(str(output_folder), chart, str(output_folder / "chart.json"))
 
     return
 

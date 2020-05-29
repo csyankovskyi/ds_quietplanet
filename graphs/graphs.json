@@ -1,7 +1,7 @@
 [
     {
         "name": "aerosol",
-        "description": "Aerosol optical thickness",
+        "description": "Aerosol",
         "datasets": [
             "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1781413&cs=rgb&format=CSV&width=360&height=180",
             "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1782320&cs=rgb&format=CSV&width=360&height=180",
@@ -11,6 +11,7 @@
             "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1786012&cs=rgb&format=CSV&width=360&height=180",
             "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1786908&cs=rgb&format=CSV&width=360&height=180"
         ],
-        "metadata": [ "October 2019", "November 2019", "December 2019", "January 2020", "February 2020", "March 2020", "April 2020" ]
+        "metadata": [ "October 2019", "November 2019", "December 2019", "January 2020", "February 2020", "March 2020", "April 2020" ],
+        "legend": [ "Month", "Thickness" ]
     }
 ]

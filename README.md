@@ -20,6 +20,7 @@
     * react
     * react-dom
     * @material-ui/core
+    * react-google-charts
 
 ## Running app
 ### Generating graphs
