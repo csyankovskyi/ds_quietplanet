@@ -1,5 +1,6 @@
 import Head from "next/head"
 import Footer from "../components/Footer"
+import Header from "../components/Header"
 import { Chart } from "react-google-charts"
 import { Typography, Paper } from "@material-ui/core"
 import CircularProgress from "@material-ui/core/CircularProgress"
@@ -11,7 +12,6 @@ const chartProps = {
         maxWidth: "100%"
     },
     height: "400px",
-    legendToggle: true,
     loader: <CircularProgress />
 }
 
@@ -53,11 +53,7 @@ export default class Index extends React.Component {
                 </Head>
 
                 <div className="top">
-                    <div className="header">
-                        <Typography variant="h1" className="header-title">Quiet planet</Typography>
-                        <Typography variant="subtitle1" className="header-paragraph">NASA Space Apps 2020 COVID-19 challenge solution by Data Scouts</Typography>
-                    </div>
-
+                    <Header />
                     <div className="content">
                         {Object.keys(this.state.charts).map(key => {
                             const chart = this.state.charts[key]
@@ -79,6 +75,12 @@ export default class Index extends React.Component {
                             return (
                                 <div className={`chart chart-${key}`} key={chart.id}>
                                     <Typography variant="h2" className="chart-title">{chart.description}</Typography>
+                                    {prevData === null ? null : 
+                                        <Typography variant="subtitle2" className="chart-result" color="primary">
+                                            {chart.similarity >= 0.65 ? "Looks like changes are not because of COVID-19. " : "Looks like changes are because of COVID-19. "}
+                                            {`Charts are similar to ${chart.similarity * 100}%`}
+                                        </Typography>}
+
                                     <div className={`chart-list ${prevData === null ? "only-latest" : ""}`}>
                                         <div className="chart-latest">
                                             <Typography variant="subtitle1" className="chart-subtitle">Latest</Typography>
@@ -90,7 +92,7 @@ export default class Index extends React.Component {
                                                 <Chart data={prevData} {...chartProps} />
                                             </div>}
                                     </div>
-                                </div>
+                               </div>
                             )
                         })}
 

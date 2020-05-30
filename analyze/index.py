@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from helpers.download import download
+from analyze import compare_graphs
 from pathlib import Path
 import json
 import os
@@ -32,8 +33,8 @@ def bake_chart_data(dataset_folder: str, chart: dict, output_file: str = "chart.
         "description": chart["description"], 
         "legend": chart["legend"], 
         "metadata": chart["metadata"], 
-        "data": [], 
-        "before": None 
+        "data": [],
+        "before": None
     }
 
     calculation_method = chart["calculate"]
@@ -47,15 +48,17 @@ def bake_chart_data(dataset_folder: str, chart: dict, output_file: str = "chart.
         out_dictionary["data"].append(transform_dataset(dataset, calculation_method, 99999.0))
 
     if "before" in chart.keys():
-        chart_result = chart["before"]
-        chart_result["legend"] = chart["legend"]
-        chart_result["description"] = chart["description"]
-        chart_result["calculate"] = calculation_method
-        chart_result = bake_chart_data(os.path.join(dataset_folder, "before"), chart_result, write = False)
-        chart_result.pop("legend", None)
-        chart_result.pop("description", None)
-        chart_result.pop("before", None)
-        out_dictionary["before"] = chart_result
+        prev_chart = chart["before"]
+        prev_chart["legend"] = chart["legend"]
+        prev_chart["description"] = chart["description"]
+        prev_chart["calculate"] = calculation_method
+        prev_chart = bake_chart_data(os.path.join(dataset_folder, "before"), prev_chart, write = False)
+        similarity = compare_graphs(out_dictionary, prev_chart)
+        prev_chart.pop("legend", None)
+        prev_chart.pop("description", None)
+        prev_chart.pop("before", None)
+        out_dictionary["before"] = prev_chart
+        out_dictionary["similarity"] = similarity
 
     if write: 
         with open(output_file, "w") as output:

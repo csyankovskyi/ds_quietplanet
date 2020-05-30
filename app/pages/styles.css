@@ -16,6 +16,7 @@ html, body {
 
 .header, .footer, .content {
     padding: var(--offset);
+    padding-bottom: 0;
 }
 
 .header .header-title {
@@ -43,5 +44,10 @@ html, body {
 .chart .chart-title {
     font-size: 2em;
     margin: calc(var(--offset) / 4) 0;
+}
+
+.chart .chart-result {
+    font-size: 1.2em;
+    margin-bottom: var(--offset);
 }
 
