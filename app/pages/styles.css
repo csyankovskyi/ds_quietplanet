@@ -20,5 +20,28 @@ html, body {
 
 .header .header-title {
     margin-bottom: calc(var(--offset) / 4);
+    font-size: 5em;
+}
+
+@media (min-width: 900px) {
+    .chart-list {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+    .chart .chart-latest,
+    .chart .chart-before {
+        width: 50%;
+    }
+
+    .chart .chart-list.only-latest .chart-latest {
+        width: 100% 
+    }
+}
+
+.chart .chart-title {
+    font-size: 2em;
+    margin: calc(var(--offset) / 4) 0;
 }
 

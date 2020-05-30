@@ -4,6 +4,17 @@ import { Chart } from "react-google-charts"
 import { Typography, Paper } from "@material-ui/core"
 import CircularProgress from "@material-ui/core/CircularProgress"
 
+const chartProps = {
+    chartType: "AreaChart",
+    width: "100%",
+    style: {
+        maxWidth: "100%"
+    },
+    height: "400px",
+    legendToggle: true,
+    loader: <CircularProgress />
+}
+
 export default class Index extends React.Component {
     constructor () {
         super()
@@ -56,11 +67,29 @@ export default class Index extends React.Component {
                                 data.push([ chart.metadata[i], chart.data[i] ])
                             }
 
+                            let prevData = null
+
+                            if ("before" in chart) {
+                                prevData = [ chart.legend ]
+                                for (let i in chart.before.metadata) {
+                                    prevData.push([ chart.before.metadata[i], chart.before.data[i] ])
+                                }
+                            }
+
                             return (
                                 <div className={`chart chart-${key}`} key={chart.id}>
                                     <Typography variant="h2" className="chart-title">{chart.description}</Typography>
-                                    <Chart chartType="AreaChart" data={data} width="100%" height="400px" 
-                                        legendToggle loader={<CircularProgress />} />
+                                    <div className={`chart-list ${prevData === null ? "only-latest" : ""}`}>
+                                        <div className="chart-latest">
+                                            <Typography variant="subtitle1" className="chart-subtitle">Latest</Typography>
+                                            <Chart data={data} {...chartProps} />
+                                        </div>
+                                        {prevData === null ? null :
+                                            <div className="chart-before">
+                                                <Typography variant="subtitle1" className="chart-subtitle">Previous data</Typography>
+                                                <Chart data={prevData} {...chartProps} />
+                                            </div>}
+                                    </div>
                                 </div>
                             )
                         })}
