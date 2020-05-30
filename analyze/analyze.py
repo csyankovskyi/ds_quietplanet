@@ -29,7 +29,7 @@ def compare_tempos(tempos_1, tempos_2):
     else:
         shortest = len(tempos_1)
     for i in range(shortest):
-        if (tempos_1[i] > 0 and tempos_2 > 0) or (tempos_1 < 0 and tempos_2) < 0:
+        if (tempos_1[i] > 0 and tempos_2[i] > 0) or (tempos_1[i] < 0 and tempos_2[i]) < 0:
             correlations += 1
     return correlations/shortest
 
