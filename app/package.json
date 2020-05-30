@@ -12,6 +12,7 @@
     "next": "9.4.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-google-charts": "^3.0.15"
+    "react-google-charts": "^3.0.15",
+    "typeface-roboto": "0.0.75"
   }
 }

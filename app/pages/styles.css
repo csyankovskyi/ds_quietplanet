@@ -1,5 +1,5 @@
 :root {
-    --offset: 2em;
+    --offset: 2rem;
 }
 
 html, body {
@@ -12,19 +12,41 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-sizing: border-box;
+    padding-top: calc(var(--offset) * 1.3);
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.app-menu {
+    display: flex;
+}
+
+.app-menu > * {
+    margin-left: var(--offset) !important;
+}
+
+.header, .footer, .content, .tab-content {
+    padding: var(--offset);
 }
 
 .header {
     padding-bottom: 0;
 }
 
-.header, .footer, .content {
-    padding: var(--offset);
-}
 
 .header .header-title {
     margin-bottom: calc(var(--offset) / 4);
     font-size: 5em;
+}
+
+.chart {
+    padding: var(--offset);
+    box-sizing: border-box;
+    margin: var(--offset) 0;
 }
 
 @media (min-width: 900px) {
@@ -52,5 +74,13 @@ html, body {
 .chart .chart-result {
     font-size: 1.2em;
     margin-bottom: var(--offset);
+}
+
+.content .content-text p, .content .content-text h2 {
+    margin-bottom: calc(var(--offset) / 4);
+}
+
+.content .content-text h2 {
+    margin-top: calc(var(--offset) / 4);
 }
 

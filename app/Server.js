@@ -31,7 +31,7 @@ app.prepare().then(() => {
             const graphs = require(graphsJsonPath)
             res.setHeader("Content-Type", "application/json")
             res.end(JSON.stringify(graphs))
-        } else if (/^\/api\/charts\/\w+$/g.test(pathname)) {
+        } else if (/^\/api\/charts\/(\w+(-?)\w*)+$/g.test(pathname)) {
             const pathItems= pathname.split("/")
             const chartName = pathItems[pathItems.length - 1]
             const chartPath = path.resolve(__dirname, `../graphs/${chartName}/chart.json`)

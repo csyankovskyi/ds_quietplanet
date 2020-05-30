@@ -1,53 +1,14 @@
 import Head from "next/head"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
-import { Chart } from "react-google-charts"
+import Charts from "../components/Charts"
+import Link from "@material-ui/core/Link"
 import { Typography, Paper } from "@material-ui/core"
-import CircularProgress from "@material-ui/core/CircularProgress"
-
-const chartProps = {
-    chartType: "AreaChart",
-    width: "100%",
-    style: {
-        maxWidth: "100%"
-    },
-    height: "400px",
-    loader: <CircularProgress />
-}
 
 export default class Index extends React.Component {
-    constructor () {
-        super()
-        this.state = {
-            chartsList: {},
-            charts: {},
-            loading: true
-        }
-    }
-    
-    componentDidMount () {
-        fetch("/api/charts")
-            .then(response => response.json())
-            .then(chartsList => {
-                this.setState({ chartsList, loading: chartsList.length })
-            })
-            .then(() => (
-                this.state.chartsList.forEach(chart => {
-                    fetch(`/api/charts/${chart.name}`)
-                        .then(response => response.json())
-                        .then(chartData => {
-                            const charts = this.state.charts
-                            charts[chart.name] = chartData
-                            charts[chart.name].id = this.state.loading
-                            this.setState({ charts, loading: this.state.loading - 1 })
-                        })
-                })
-            ))
-    }
-
     render () {
         return (
-            <Paper className="root">
+            <div className="root">
                 <Head>
                     <title>"Quiet planet" challenge solution by Data Scouts</title>
                 </Head>
@@ -55,84 +16,24 @@ export default class Index extends React.Component {
                 <div className="top">
                     <Header />
                     <div className="content">
-                        {Object.keys(this.state.charts).map(key => {
-                            const chart = this.state.charts[key]
-                            const data = [ chart.legend ]
-
-                            let maxValue = 0
-                            let minValue = null
-
-                            for (let i in chart.metadata) {
-                                data.push([ chart.metadata[i], chart.data[i] ])
-                                if (chart.data[i] > maxValue) {
-                                    maxValue = chart.data[i]
-                                }
-
-                                if (minValue === null || minValue > chart.data[i]) {
-                                    minValue = chart.data[i]
-                                }
-                            }
-
-                            let prevData = null
-
-                            if ("before" in chart) {
-                                prevData = [ chart.legend ]
-                                for (let i in chart.before.metadata) {
-                                    prevData.push([ chart.before.metadata[i], chart.before.data[i] ])
-                                    if (chart.before.data[i] > maxValue) {
-                                        maxValue = chart.before.data[i]
-                                    }
-
-                                    if (minValue === null || minValue > chart.before.data[i]) {
-                                        minValue = chart.before.data[i]
-                                    }
-                                }
-                            }
-
-                            maxValue *= 1.02
-
-                            const options = {
-                                legend: { position: 'top', maxLines: 3 },
-                                vAxis: { 
-                                    maxValue,
-                                    minValue
-                                }
-                            }
-
-                            return (
-                                <div className={`chart chart-${key}`} key={chart.id}>
-                                    <Typography variant="h2" className="chart-title">{chart.description}</Typography>
-                                    {prevData === null ? null : 
-                                        <Typography variant="subtitle2" className="chart-result" color="primary">
-                                            {chart.similarity >= 0.65 ? "Looks like changes are not because of COVID-19. " : "Looks like changes are because of COVID-19. "}
-                                            {`Charts are similar to ${chart.similarity * 100}%`}
-                                        </Typography>}
-
-                                    <div className={`chart-list ${prevData === null ? "only-latest" : ""}`}>
-                                        <div className="chart-latest">
-                                            <Typography variant="subtitle1" className="chart-subtitle">Latest</Typography>
-                                            <Chart data={data} {...chartProps} options={options} />
-                                        </div>
-                                        {prevData === null ? null :
-                                            <div className="chart-before">
-                                                <Typography variant="subtitle1" className="chart-subtitle">Previous data</Typography>
-                                                <Chart data={prevData} {...chartProps} options={options} />
-                                            </div>}
-                                    </div>
-                               </div>
-                            )
-                        })}
-
-                        {new Array(this.state.loading).fill(0).map(() => (
-                            <div className="chart">
-                                <CircularProgress />
-                            </div>
-                        ))}
+                        <div className="content-text">
+                            <Typography>By the time of 2020, the COVID-19 pandemic is the most impactful problem worldwide, with no country escaping its touch and everyone feeling the consequences. Considering its high contagiousness and severe mortality, strong measures were taken to contain it’s spread, with many of those having sometimes unobvious impacts on our planet.</Typography>
+                            <Typography>Our job was to investigate planet changes happening during the pandemic and determine whether they are caused by it or not.</Typography>
+                            <Typography variant="h2">Measures taken</Typography>
+                            <Typography>
+                                Almost all the countries took different measures, including travel bans, non-essential business closure, social distance enforcement, etc. 
+                                According to <Link href="https://www.bsg.ox.ac.uk/covidtracker">Oxford COVID-19 government response tracker</Link>, different restrictions started to apply 
+                                mostly in the middle of March.
+                            </Typography>
+                        </div>
+                        <Charts chartsToLoad="aerosol" displayDifferenceChart comment="Aerosol optical thickness drop from February to March is caused by China shutting down industrial facilities in response to COVID-19 spread, and shortage of atmospheric emissions as a result." />
+                        <Charts chartsToLoad="ozone" displayDifferenceChart comment="" />
+                        <Charts chartsToLoad="nitrogen-dioxide" displayDifferenceChart comment="" />
                     </div>
                 </div>
 
                 <Footer />
-            </Paper>
+            </div>
         )
     }
 }
