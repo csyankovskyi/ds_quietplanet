@@ -27,6 +27,7 @@ export default class Index extends React.Component {
                         .then(chartData => {
                             const charts = this.state.charts
                             charts[chart.name] = chartData
+                            charts[chart.name].id = this.state.loading
                             this.setState({ charts, loading: this.state.loading - 1 })
                         })
                 })
@@ -56,7 +57,7 @@ export default class Index extends React.Component {
                             }
 
                             return (
-                                <div className={`chart chart-${key}`} key={key}>
+                                <div className={`chart chart-${key}`} key={chart.id}>
                                     <Typography variant="h2" className="chart-title">{chart.description}</Typography>
                                     <Chart chartType="AreaChart" data={data} width="100%" height="400px" 
                                         legendToggle loader={<CircularProgress />} />
