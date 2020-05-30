@@ -4,14 +4,26 @@ from pathlib import Path
 import json
 import os
 
-def transform_dataset(dataset: str, empty: float):
+def transform_dataset(dataset: str, calculation_method: str, empty: float):
     constant = 0.0
     rows = dataset.split("\n") # 99999.0 are unprocessed tiles that should not be included in
+    # values count
+    count = 0
     for row in rows:
         row = [float(value) for value in row.split(",") if value]
+
         for value in row:
             if value != empty:
-                constant += value
+                if calculation_method == "average":
+                    count += 1
+
+                if calculation_method == "average" or calculation_method == "sum":
+                    constant += value
+                else:
+                    raise Exception("Unexpected calculation method \"{}\"".format(calculation_method))
+
+    if calculation_method == "average" and count != 0:
+        constant /= count
 
     return constant
 
@@ -20,6 +32,7 @@ def bake_chart_data(dataset_folder: str, chart: dict, output_file: str):
     out_dictionary["legend"] = chart["legend"]
     out_dictionary["description"] = chart["description"]
     out_dictionary["metadata"] = chart["metadata"]
+    calculation_method = chart["calculate"]
     
     files = [file for file in os.listdir(dataset_folder) if file.lower().endswith(".csv")]
 
@@ -27,7 +40,7 @@ def bake_chart_data(dataset_folder: str, chart: dict, output_file: str):
         with open(os.path.join(dataset_folder, file), "r") as csv:
             dataset = csv.read()
 
-        out_dictionary["data"].append(transform_dataset(dataset, 99999.0))
+        out_dictionary["data"].append(transform_dataset(dataset, calculation_method, 99999.0))
 
     with open(output_file, "w") as output:
         json.dump(out_dictionary, output)
