@@ -28,10 +28,14 @@ def transform_dataset(dataset: str, calculation_method: str, empty: float):
     return constant
 
 def bake_chart_data(dataset_folder: str, chart: dict, output_file: str = "chart.json", write: bool = True):
-    out_dictionary = { "description": "", "legend": [], "metadata": [], "data": [], "before": None }
-    out_dictionary["legend"] = chart["legend"]
-    out_dictionary["description"] = chart["description"]
-    out_dictionary["metadata"] = chart["metadata"]
+    out_dictionary = { 
+        "description": chart["description"], 
+        "legend": chart["legend"], 
+        "metadata": chart["metadata"], 
+        "data": [], 
+        "before": None 
+    }
+
     calculation_method = chart["calculate"]
     
     files = [file for file in os.listdir(dataset_folder) if file.lower().endswith(".csv")]
