@@ -14,9 +14,12 @@ html, body {
     justify-content: space-between;
 }
 
+.header {
+    padding-bottom: 0;
+}
+
 .header, .footer, .content {
     padding: var(--offset);
-    padding-bottom: 0;
 }
 
 .header .header-title {

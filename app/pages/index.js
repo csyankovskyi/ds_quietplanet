@@ -59,8 +59,18 @@ export default class Index extends React.Component {
                             const chart = this.state.charts[key]
                             const data = [ chart.legend ]
 
+                            let maxValue = 0
+                            let minValue = null
+
                             for (let i in chart.metadata) {
                                 data.push([ chart.metadata[i], chart.data[i] ])
+                                if (chart.data[i] > maxValue) {
+                                    maxValue = chart.data[i]
+                                }
+
+                                if (minValue === null || minValue > chart.data[i]) {
+                                    minValue = chart.data[i]
+                                }
                             }
 
                             let prevData = null
@@ -69,6 +79,23 @@ export default class Index extends React.Component {
                                 prevData = [ chart.legend ]
                                 for (let i in chart.before.metadata) {
                                     prevData.push([ chart.before.metadata[i], chart.before.data[i] ])
+                                    if (chart.before.data[i] > maxValue) {
+                                        maxValue = chart.before.data[i]
+                                    }
+
+                                    if (minValue === null || minValue > chart.before.data[i]) {
+                                        minValue = chart.before.data[i]
+                                    }
+                                }
+                            }
+
+                            maxValue *= 1.02
+
+                            const options = {
+                                legend: { position: 'top', maxLines: 3 },
+                                vAxis: { 
+                                    maxValue,
+                                    minValue
                                 }
                             }
 
@@ -84,12 +111,12 @@ export default class Index extends React.Component {
                                     <div className={`chart-list ${prevData === null ? "only-latest" : ""}`}>
                                         <div className="chart-latest">
                                             <Typography variant="subtitle1" className="chart-subtitle">Latest</Typography>
-                                            <Chart data={data} {...chartProps} />
+                                            <Chart data={data} {...chartProps} options={options} />
                                         </div>
                                         {prevData === null ? null :
                                             <div className="chart-before">
                                                 <Typography variant="subtitle1" className="chart-subtitle">Previous data</Typography>
-                                                <Chart data={prevData} {...chartProps} />
+                                                <Chart data={prevData} {...chartProps} options={options} />
                                             </div>}
                                     </div>
                                </div>
