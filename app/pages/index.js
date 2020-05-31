@@ -30,7 +30,7 @@ export default class Index extends React.Component {
                                 </Typography>
                             </div>
                         </div>
-                        <Charts chartsToLoad={["aerosol", "active-fires"]} sameCard hideBefore comment={{
+                        <Charts chartsToLoad={["aerosol", "wildfires"]} sameCard hideBefore comment={{
                             aerosol: "Aerosol optical thickness drop from February to March is caused by China shutting down industrial facilities in response to COVID-19 spread, and shortage of atmospheric emissions as a result."
                         }} key="aerosol-and-active-fires" customTitle="Aerosol optical thickness & wildfires">
                             <Typography>
