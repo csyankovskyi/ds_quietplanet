@@ -12,9 +12,6 @@ const chartProps = {
     loader: <CircularProgress />
 }
 
-const msgCovid = "Connection to COVID-19 pandemic is possible. "
-const msgNotCovid = "Connection to COVID-19 pandemic is not possible. "
-
 function getResultMessage (similarity) {
     if (similarity < 20 || similarity > 80) {
         return "Changes can be because of COVID-19"
@@ -27,10 +24,11 @@ function getResultMessage (similarity) {
 
 export default class Charts extends React.Component {
     /**
-     * @param {Object}          options
-     * @param {String|String[]} options.chartsToLoad
-     * @param {Boolean}         [options.displayDifferenceChart]
-     * @param {String}          [options.comment]
+     * @param {Object}                  options
+     * @param {String|String[]}         options.chartsToLoad
+     * @param {Boolean}                 [options.displayDifferenceChart]
+     * @param {String}                  [options.comment]
+     * @param {React.Component[]}       [options.children]
      */
     constructor (options) {
         super(options)
@@ -132,30 +130,38 @@ export default class Charts extends React.Component {
                     return (
                         <Paper className={`chart chart-${key}`} key={chart.id}>
                             <Typography variant="h2" className="chart-title">{chart.description}</Typography>
-                            {prevData === null ? null : 
-                                <Typography variant="subtitle2" className="chart-result" color="primary">
-                                    {getResultMessage(chart.similarity) + ". "}
-                                    {`Charts are ${chart.similarity * 100}% similar`}
-                                </Typography>}
-
-                            <div className={`chart-list ${prevData === null ? "only-latest" : ""}`}>
-                                {prevData === null ? null :
-                                    <div className="chart-before">
-                                        <Typography variant="subtitle1" className="chart-subtitle">Previous data</Typography>
-                                        <Chart data={prevData} {...chartProps} options={options} />
+                            <div className={`chart-wrapper ${this.props.children ? "with-post" : ""}`}>
+                                {!this.props.children ? null : 
+                                    <div className="chart-post">
+                                        {this.props.children}
                                     </div>}
-                                <div className="chart-latest">
-                                    <Typography variant="subtitle1" className="chart-subtitle">Latest</Typography>
-                                    <Chart data={data} {...chartProps} options={options} />
+                                <div className="chart-inner-wrapper">
+                                    {prevData === null ? null : 
+                                        <Typography variant="subtitle2" className="chart-result" color="primary">
+                                            {getResultMessage(chart.similarity) + ". "}
+                                            {`Charts are ${chart.similarity * 100}% similar`}
+                                        </Typography>}
+
+                                    <div className={`chart-list ${prevData === null ? "only-latest" : ""}`}>
+                                        {prevData === null ? null :
+                                            <div className="chart-before">
+                                                <Typography variant="subtitle1" className="chart-subtitle">Previous data</Typography>
+                                                <Chart data={prevData} {...chartProps} options={options} />
+                                            </div>}
+                                        <div className="chart-latest">
+                                            <Typography variant="subtitle1" className="chart-subtitle">Latest</Typography>
+                                            <Chart data={data} {...chartProps} options={options} />
+                                        </div>
+                                    </div>
+                                    {!(this.props.displayDifferenceChart && "before" in chart) ? null :
+                                        <div className="chart-difference">
+                                            <Typography variant="subtitle1" className="chart-subtitle">Difference</Typography>
+                                            <Chart data={differenceData} {...chartProps} />
+                                        </div>}
+                                    {!this.props.comment ? null : 
+                                        <Typography>{this.props.comment}</Typography>}
                                 </div>
                             </div>
-                            {!(this.props.displayDifferenceChart && "before" in chart) ? null :
-                                <div className="chart-difference">
-                                    <Typography variant="subtitle1" className="chart-subtitle">Difference</Typography>
-                                    <Chart data={differenceData} {...chartProps} />
-                                </div>}
-                            {!this.props.comment ? null : 
-                                <Typography>{this.props.comment}</Typography>}
                        </Paper>
                     )
                 })}

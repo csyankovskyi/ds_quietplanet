@@ -40,12 +40,6 @@ export default class Tools extends React.Component {
                     <div className="content">
                         <Typography variant="h1" component="h2">Tools</Typography>
                         <Container>
-                            <Toolbar>
-                                <Typography>Display difference chart:</Typography>
-                                <Switch checked={this.state.displayDifferenceChart} onChange={this.handleDiffChange.bind(this)} color="primary" />
-                            </Toolbar>
-                        </Container>
-                        <Container>
                             <Tabs
                                 value={this.state.value}
                                 onChange={this.handleTabChange.bind(this)}
@@ -55,6 +49,10 @@ export default class Tools extends React.Component {
                                 <Tab label="Charts" />
                             </Tabs>
                             <TabContent index={0} value={this.state.value}>
+                                <Toolbar>
+                                    <Typography>Display difference chart:</Typography>
+                                    <Switch checked={this.state.displayDifferenceChart} onChange={this.handleDiffChange.bind(this)} color="primary" />
+                                </Toolbar>
                                 <Charts chartsToLoad="all" displayDifferenceChart={this.state.displayDifferenceChart} />
                             </TabContent>
                             <TabContent index={1} value={this.state.value}>

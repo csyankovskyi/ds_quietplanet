@@ -37,7 +37,6 @@ html, body {
     padding-bottom: 0;
 }
 
-
 .header .header-title {
     margin-bottom: calc(var(--offset) / 4);
     font-size: 5em;
@@ -49,7 +48,23 @@ html, body {
     margin: var(--offset) 0;
 }
 
+@media (max-width: 899px) {
+    .chart-wrapper.with-post .chart-post {
+        margin-bottom: var(--offset);
+    }
+}
+
 @media (min-width: 900px) {
+    .chart-wrapper.with-post {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .chart-post {
+        width: 50%;
+    }
+
     .chart-list {
         display: flex;
         align-items: flex-end;
@@ -61,14 +76,27 @@ html, body {
         width: 50%;
     }
 
-    .chart .chart-list.only-latest .chart-latest {
-        width: 100% 
+    .chart .chart-list.only-latest .chart-latest,
+    .chart-post ~ .chart-inner-wrapper .chart-list .chart-latest,
+    .chart-post ~ .chart-inner-wrapper .chart-list .chart-before
+    {
+        width: 100%;
+    }
+
+    .chart-post ~ .chart-inner-wrapper {
+        width: 50%;
+    }
+
+    .chart-post ~ .chart-inner-wrapper .chart-list {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
     }
 }
 
 .chart .chart-title {
     font-size: 2em;
-    margin: calc(var(--offset) / 4) 0;
+    margin-bottom: var(--offset);
 }
 
 .chart .chart-result {
@@ -81,6 +109,11 @@ html, body {
 }
 
 .content .content-text h2 {
+    font-size: 2em;
     margin-top: calc(var(--offset) / 4);
+}
+
+.content-post {
+    margin-bottom: var(--offset);
 }
 
