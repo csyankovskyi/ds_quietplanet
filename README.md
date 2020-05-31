@@ -7,6 +7,7 @@
 - [Requirements](#requirements)
 - [Dependencies](#dependencies)
 - [Running app](#running-app)
+- [Screenshots](#screenshots)
 
 <hr>
 
@@ -41,3 +42,8 @@ npm run build
 npm run start
 ```
 
+## Screenshots
+<img src="screenshots/1.png" alt="Research about aerosol optical thickness and wildfires">
+<img src="screenshots/2.png" alt="Research about why Nitrogen dioxide amount changed">
+<img src="screenshots/3.png" alt="Research tools page">
+<img src="screenshots/4.png" alt="One of the charts">

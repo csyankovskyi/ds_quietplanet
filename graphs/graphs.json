@@ -87,8 +87,8 @@
         "calculate": "average"
     },
     {
-        "name": "active-fires",
-        "description": "Count of fires across the world",
+        "name": "wildfires",
+        "description": "Count of wildfires across the world",
         "section": "Environment",
         "legend": [ "Month", "Fires count" ],
         "metadata": [ "October 2019", "November 2019", "December 2019", "January 2020", "February 2020", "March 2020" ],

@@ -32,7 +32,7 @@ export default class Index extends React.Component {
                         </div>
                         <Charts chartsToLoad={["aerosol", "active-fires"]} sameCard hideBefore comment={{
                             aerosol: "Aerosol optical thickness drop from February to March is caused by China shutting down industrial facilities in response to COVID-19 spread, and shortage of atmospheric emissions as a result."
-                        }} key="aerosol-and-active-fires" customTitle="Aerosol optical thickness & fires">
+                        }} key="aerosol-and-active-fires" customTitle="Aerosol optical thickness & wildfires">
                             <Typography>
                                 Tiny solid and liquid particles suspended in the atmosphere are called aerosols.
                                 Windblown dust, sea salts, volcanic ash, smoke from wildfires, and pollution from factories are all examples of aerosols.
