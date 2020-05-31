@@ -3,15 +3,18 @@ from helpers.download import download
 from analyze import compare_graphs
 from pathlib import Path
 import json
+import csv
 import os
+import io
 
 def transform_dataset(dataset: str, calculation_method: str, empty: float):
     constant = 0.0
-    rows = dataset.split("\n") # 99999.0 are unprocessed tiles that should not be included in
+    csvfile = io.StringIO(dataset.replace("\0", ""))
+    reader = csv.reader(csvfile, delimiter=",")
     # values count
     count = 0
-    for row in rows:
-        row = [float(value) for value in row.split(",") if value]
+    for row in reader:
+        row = [float(value) for value in row if value]
 
         for value in row:
             if value != empty:
@@ -34,7 +37,8 @@ def bake_chart_data(dataset_folder: str, chart: dict, output_file: str = "chart.
         "legend": chart["legend"], 
         "metadata": chart["metadata"], 
         "data": [],
-        "before": None
+        "before": None,
+        "section": "No section" if not "section" in chart.keys() else chart["section"]
     }
 
     calculation_method = chart["calculate"]
@@ -84,7 +88,7 @@ def generate_chart(chart: dict, output_folder: str, print_info: bool = False):
     if print:
         print("Main datasets for chart \"{}\" downloaded successfully".format(chart["name"]))
 
-    if chart["before"]:
+    if "before" in chart.keys():
         download_chart_datasets(chart["before"]["datasets"], Path(output_folder) / "before")
         if print:
             print("Datasets for previous results for chart \"{}\" downloaded successfully".format(chart["name"]))
@@ -99,7 +103,11 @@ def generate_all_graphs(print_info: bool = False):
         output_folder = Path(__file__).absolute().parent.parent / "graphs" / (chart["name"])
         output_folder.mkdir(exist_ok=True)
         generate_chart(chart, str(output_folder), print_info)
+        if print_info:
+            print("---")
 
+    if print_info:
+        print("Graphs generated successfully")
     return
 
 if __name__ == "__main__":

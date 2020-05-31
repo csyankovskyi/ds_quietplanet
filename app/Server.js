@@ -17,6 +17,9 @@ app.prepare().then(() => {
         const { pathname, query } = parsedUrl
 
         if (pathname === "/api/charts") {
+            const sections = "sections" in query ? query.sections.split(",") : ["all"]
+            const charts = "charts" in query ? query.charts.split(",") : ["all"]
+
             const graphsJsonPath = path.resolve(__dirname, "../graphs/graphs.json")
             if (!fs.existsSync(graphsJsonPath)) {
                 res.statusCode = 404
@@ -29,8 +32,50 @@ app.prepare().then(() => {
             }
 
             const graphs = require(graphsJsonPath)
+            const result = []
+
+            for (let graph of graphs) {
+                if (sections.indexOf("all") === -1) {
+                    if (sections.indexOf(graph.section) === -1) {
+                        continue
+                    }
+                }
+
+                if (charts.indexOf("all") === -1) {
+                    if (charts.indexOf(graph.name) === -1) {
+                        continue
+                    }
+                }
+
+                result.push(graph)
+            }
+
             res.setHeader("Content-Type", "application/json")
-            res.end(JSON.stringify(graphs))
+            res.end(JSON.stringify(result))
+        } else if (pathname === "/api/sections") {
+            const sections = []
+
+            const graphsJsonPath = path.resolve(__dirname, "../graphs/graphs.json")
+            if (!fs.existsSync(graphsJsonPath)) {
+                res.statusCode = 404
+                res.end()
+                return
+            }
+
+            if (process.env.NODE_ENV === "development") {
+                delete require.cache[graphsJsonPath]
+            }
+
+            const graphs = require(graphsJsonPath)
+
+            for (let graph of graphs) {
+                if (graph.section && sections.indexOf(graph.section) === -1) {
+                    sections.push(graph.section)
+                }
+            }
+            
+            res.setHeader("Content-Type", "application/json")
+            res.end(JSON.stringify(sections))
         } else if (/^\/api\/charts\/(\w+(-?)\w*)+$/g.test(pathname)) {
             const pathItems= pathname.split("/")
             const chartName = pathItems[pathItems.length - 1]
@@ -46,8 +91,13 @@ app.prepare().then(() => {
             }
 
             const chart = require(chartPath)
+            const result = {
+                ...chart,
+                name: chartName
+            }
+
             res.setHeader("Content-Type", "application/json")
-            res.end(JSON.stringify(chart))
+            res.end(JSON.stringify(result))
         } else {
             handle(req, res, parsedUrl)
         }

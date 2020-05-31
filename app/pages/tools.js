@@ -2,6 +2,7 @@ import Head from "next/head"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import Charts from "../components/Charts"
+import CircularProgress from "@material-ui/core/CircularProgress"
 import { Typography, Container, Toolbar, Switch, Paper, Tabs, Tab, Box } from "@material-ui/core"
 
 const TabContent = React.memo(({ value, index, children }) => (
@@ -38,7 +39,7 @@ export default class Tools extends React.Component {
 
                 <div className="top">
                     <div className="content">
-                        <Typography variant="h1" component="h2">Tools</Typography>
+                        <Typography variant="h1" component="h2" className="page-title">Tools</Typography>
                         <Container>
                             <Tabs
                                 value={this.state.value}
@@ -54,9 +55,6 @@ export default class Tools extends React.Component {
                                     <Switch checked={this.state.displayDifferenceChart} onChange={this.handleDiffChange.bind(this)} color="primary" />
                                 </Toolbar>
                                 <Charts chartsToLoad="all" displayDifferenceChart={this.state.displayDifferenceChart} />
-                            </TabContent>
-                            <TabContent index={1} value={this.state.value}>
-                                This is not chart
                             </TabContent>
                         </Container>
                     </div>

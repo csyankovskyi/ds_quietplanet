@@ -2,6 +2,7 @@
     {
         "name": "aerosol",
         "description": "Average value of aerosol optical thickness",
+        "section": "Atmosphere",
         "datasets": [
             "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1781413&cs=rgb&format=CSV&width=360&height=180",
             "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1782320&cs=rgb&format=CSV&width=360&height=180",
@@ -30,6 +31,7 @@
     {
         "name": "ozone",
         "description": "Average value of ozone thickness",
+        "section": "Atmosphere",
         "datasets": [
             "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1781521&cs=rgb&format=CSV&width=360&height=180",
             "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1782465&cs=rgb&format=CSV&width=360&height=180",
@@ -58,6 +60,7 @@
     {
         "name": "nitrogen-dioxide",
         "description": "Average amount of nitrogen dioxide molecules",
+        "section": "Atmosphere",
         "legend": [ "Month", "Amount (billion molecules/mm2)" ],
         "metadata": [ "October 2019", "November 2019", "December 2019", "January 2020", "February 2020", "March 2020", "April 2020" ],
         "datasets": [
@@ -82,5 +85,21 @@
             ]
         },
         "calculate": "average"
+    },
+    {
+        "name": "active-fires",
+        "description": "Count of fires across the world",
+        "section": "Environment",
+        "legend": [ "Month", "Fires count" ],
+        "metadata": [ "October 2019", "November 2019", "December 2019", "January 2020", "February 2020", "March 2020" ],
+        "datasets": [
+            "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1781680&cs=rgb&format=CSV&width=360&height=180",
+            "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1782499&cs=rgb&format=CSV&width=360&height=180",
+            "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1783328&cs=rgb&format=CSV&width=360&height=180",
+            "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1784271&cs=rgb&format=CSV&width=360&height=180",
+            "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1785251&cs=rgb&format=CSV&width=360&height=180",
+            "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=1786154&cs=rgb&format=CSV&width=360&height=180"
+        ],
+        "calculate": "sum"
     }
 ]
