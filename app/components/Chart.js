@@ -2,8 +2,10 @@ import { Typography, Paper } from "@material-ui/core"
 import { Chart } from "react-google-charts"
 
 function getResultMessage (similarity) {
-    if (similarity <= 0.2 || similarity >= 0.8) {
+    if (similarity <= 0.2) {
         return "Changes can be connected to the pandemic"
+    } else if (similarity >= 0.8) {
+        return "Changes can not be connected to the pandemic"
     } else if (similarity <= 0.4 || similarity >= 0.6) {
         return "More researches needed"
     } else {
