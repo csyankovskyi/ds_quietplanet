@@ -44,10 +44,13 @@ html, body {
 
 /**/
 
-.charts.same-card,
-.charts:not(.same-card) .chart
-{
+.chart,
+.charts.same-card {
     padding: var(--offset);
+}
+
+.charts.same-card .chart {
+    padding: 0;
 }
 
 .chart, .charts {
@@ -116,9 +119,14 @@ html, body {
     text-align: center;
 }
 
-.chart .chart-title {
+.chart .chart-title,
+.charts .charts-title {
     font-size: 2em;
     margin-bottom: var(--offset);
+}
+
+.charts.same-card .charts-title ~ .charts-wrapper .chart-title {
+    font-size: 1.5em;
 }
 
 .charts .charts-title {

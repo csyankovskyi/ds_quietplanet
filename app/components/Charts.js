@@ -2,7 +2,7 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 import { Typography, Paper } from "@material-ui/core"
 import Chart from "./Chart"
 
-const chartProps = {
+export const chartProps = {
     chartType: "AreaChart",
     width: "100%",
     style: {
@@ -84,9 +84,9 @@ export default class Charts extends React.Component {
         const Wrapper = this.props.sameCard ? Paper : "div"
         return (
             <Wrapper className={`charts ${this.props.sameCard ? "same-card" : ""} ${this.props.children && this.props.sameCard ? "with-post" : ""}`}>
-                {this.props.customTitle && this.props.sameCard ? <Typography variant="h2" className="charts-title">{this.props.customTitle}</Typography> : null}
+                {this.props.customTitle && this.props.sameCard ? <Typography variant="h2" component="h2" className="charts-title">{this.props.customTitle}</Typography> : null}
                 <div className="charts-wrapper">
-                    {this.props.children && this.props.sameCard ?  <div className="chart-post">{this.props.children}</div> : null}
+                    {this.props.children && this.props.sameCard ? <div className="chart-post">{this.props.children}</div> : null}
                     <div className="charts-inner-wrapper">
                         {this.state.charts.map(chart => (
                             <Chart chart={chart} hideBefore={this.props.hideBefore} displayDifferenceChart={this.props.displayDifferenceChart} comment={this.props.comment} chartProps={chartProps} wrapper={this.props.sameCard ? "div" : Paper}>

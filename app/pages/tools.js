@@ -5,6 +5,9 @@ import Charts from "../components/Charts"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { Typography, Container, Toolbar, Switch, Paper, Tabs, Tab, Box } from "@material-ui/core"
 
+import { chartProps } from "../components/Charts"
+import Chart from "../components/Chart"
+
 const TabContent = React.memo(({ value, index, children }) => (
     value !== index ? null : (
         <Box className="tab-content">
@@ -18,7 +21,7 @@ export default class Tools extends React.Component {
         super()
         this.state = {
             value: 0,
-            displayDifferenceChart: true
+            displayDifferenceChart: true,
         }
     }
 

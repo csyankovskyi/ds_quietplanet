@@ -50,9 +50,6 @@ export default class Index extends React.Component {
                                 This year`s aerosol optical thickness has increased comparing to the two past years. However, despite fire count increasing and no dust storm situation changes, it started to drop between February and March. The most probable reason is decrease in atmospheric emissions from factories and other human activities due to different disease containment measures.
                             </Typography>
                         </Charts>
-                        <Charts chartsToLoad="ozone" displayDifferenceChart comment="" key="ozone">
-                            
-                        </Charts>
                         <Charts chartsToLoad="nitrogen-dioxide" displayDifferenceChart comment="" key="nitrogen-dioxide">
                             <Typography>
                                 Nitrogen dioxide (NO<sub>2</sub>) is a gas that occurs naturally in our atmosphere, but its concentrations are very low as compared to oxygen (O<sub>2</sub>) and nitrogen (N<sub>2</sub>).
